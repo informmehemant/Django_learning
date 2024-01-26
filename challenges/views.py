@@ -29,6 +29,17 @@ monthly_challenges = {
     "december":"Learn Django for atlest 20 minutes every day!!"
 }
 
+def index(request):
+    list_months = ""
+    months = list(monthly_challenges.keys())
+    for month in months:
+        capitalized_month = month.capitalize()
+        month_path = reverse('month-challenge', args=[month])
+        list_months += f"<li><a href='{month_path}'>{capitalized_month}</a></li>"
+        
+    response_data = f"<ul>{list_months}</ul>"  
+    return HttpResponse(response_data)
+    
 def monthly_challenge_by_number(request, month):
     # returns dict for monthly_challenges.keys() => converting to list
     months = list(monthly_challenges.keys())
@@ -36,6 +47,7 @@ def monthly_challenge_by_number(request, month):
         return HttpResponseNotFound(f"{month} month is not found in this url")
     redirect_month = months[month - 1]
     redirect_path = reverse('month-challenge', args=[redirect_month]) # /challenge/january will get constructed
+    
     return HttpResponseRedirect(redirect_path)
 
 def monthly_challenge(request, month):
@@ -45,6 +57,7 @@ def monthly_challenge(request, month):
     except:
         return HttpResponseNotFound("<h2>This month is not supported!</h2>")    
     return HttpResponse(response_data)
+
 
 
 
