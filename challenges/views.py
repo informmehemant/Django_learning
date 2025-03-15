@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import Http404, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-# Create your tests here.
 from django.template.loader import render_to_string
+
+# Create your tests here.
 monthly_challenges = {
     "january": "No Meat for a month",
     "february": "Exercising 20 min a day !",
@@ -56,4 +57,6 @@ def monthly_challenge(request, month):
             'month_name': month
         })
     except:
-        return HttpResponseNotFound("<h2>This Month is not found !</h2>")
+        # response_data = render_to_string("404.html")
+        # return HttpResponseNotFound(response_data)
+        raise Http404()
